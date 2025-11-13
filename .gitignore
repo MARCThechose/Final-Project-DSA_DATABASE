@@ -1,0 +1,16 @@
+# build artifacts
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+.o
+.a
+datasets
+compile_commands.json
+
+#IDE files 
+.vscode
+imgui.ini
+
+#build directory
+build/
