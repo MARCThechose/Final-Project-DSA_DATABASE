@@ -120,8 +120,7 @@ make -j$(nproc)
 3. **Create User (Optional)**
    ```sql
    CREATE USER 'machina_joel'@'localhost' IDENTIFIED BY 'your_password';
-   GRANT SELECT ON Container_Inv_Sys.* TO 'machina_joel'@'localhost';
-   FLUSH PRIVILEGES;
+   GRANT SELECT ON Container_Inv_Sys.* TO 'machina_joel'@'localhost';w   FLUSH PRIVILEGES;
    ```
 
 ### Connection Configuration
