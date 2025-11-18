@@ -44,10 +44,41 @@ set(SOURCES
 # Create your executable with all the necessary source files.
 add_executable(datasets ${SOURCES})
 
-# Revert MySQL to manual findi`ng (since find_package fails)
-find_path(MySQL_INCLUDE_DIR NAMES cppconn/connection.h PATHS /usr/include/cppconn)
-find_library(MySQL_LIBRARY NAMES mysqlcppconn PATHS /usr/lib/x86_64-linux-gnu)
-target_include_directories(datasets PRIVATE ${MySQL_INCLUDE_DIR})
+# Cross-platform MySQL detection
+if(WIN32)
+    # Windows paths - includes your specific installation
+    find_path(MySQL_INCLUDE_DIR NAMES cppconn/connection.h 
+        PATHS 
+        "C:/Program Files/MySQL/MySQL Connector C++ 9.5/include/jdbc"
+        "C:/Program Files/MySQL/MySQL Connector C++ 9.5/include"
+        "C:/mysql-connector-c++/include/jdbc"
+        "C:/mysql-connector-c++/include"
+        "C:/Program Files/MySQL/MySQL Connector C++ 8.0/include/jdbc"
+        "C:/Program Files/MySQL/MySQL Connector C++ 8.0/include"
+        "C:/MySQL/Connector/include/jdbc"
+        "C:/MySQL/Connector/include"
+    )
+    find_library(MySQL_LIBRARY NAMES mysqlcppconn 
+        PATHS
+        "C:/Program Files/MySQL/MySQL Connector C++ 9.5/lib64/vs14"
+        "C:/Program Files/MySQL/MySQL Connector C++ 9.5/lib64"
+        "C:/Program Files/MySQL/MySQL Connector C++ 9.5/lib"
+        "C:/mysql-connector-c++/lib64/vs14"
+        "C:/mysql-connector-c++/lib64"
+        "C:/mysql-connector-c++/lib"
+        "C:/Program Files/MySQL/MySQL Connector C++ 8.0/lib64"
+        "C:/MySQL/Connector/lib64"
+    )
+else()
+    # Linux paths - original code
+    find_path(MySQL_INCLUDE_DIR NAMES cppconn/connection.h PATHS /usr/include/cppconn)
+    find_library(MySQL_LIBRARY NAMES mysqlcppconn PATHS /usr/lib/x86_64-linux-gnu)
+endif()
+
+# Add MySQL include directory if found
+if(MySQL_INCLUDE_DIR)
+    target_include_directories(datasets PRIVATE ${MySQL_INCLUDE_DIR})
+endif()
 
 # Add the include directory for the ImGui backends, which your executable needs.
 target_include_directories(datasets PRIVATE external/imgui/backends )
