@@ -59,7 +59,7 @@ int main()
     sql::Connection* con = nullptr;
     try {
         sql::Driver* driver = get_driver_instance();
-        con = driver->connect("tcp://127.0.0.1:3306/Container_Inv_Sys", "machina_joel", "");
+        con = driver->connect("tcp://127.0.0.1:3306/Container_Inv_Sys", "root", "FORGETpassword1");
         std::cout << "Connection successful!" << std::endl;
     }
     catch (sql::SQLException& e)
